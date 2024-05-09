@@ -8,6 +8,8 @@ import TelaInicial from './src/Telas/TelaInicial';
 import TelaLogin from './src/Telas/TelaLogin';
 import AnalyticsScreen from "./src/Telas/AnalyticsScreen";
 
+import {app,db,getFirestore,collection, addDoc, getDocs} from './src/services/firebaseConfig'
+
 const Stack = createStackNavigator();
 
 const App = () => {

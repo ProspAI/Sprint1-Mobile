@@ -1,31 +1,21 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import {app,db,getFirestore,collection, addDoc, getDocs} from '../src/services/firebaseConfig.tsx'
+
 
 const TelaLogin = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const examples = [
-    { username: 'rm551236', password: 'bry2k24' },
-    { username: 'rm552247', password: 'aga2k24' },
-    { username: 'rm99743', password: 'gabr2k24' },
-    { username: 'rm98892', password: 'gika2k24' },
-    { username: 'rm552525', password: 'muri2k24' },
-  ];
-
   const handleLogin = () => {
-    if (username === '' || password === '') {
-      Alert.alert('Erro de Login', 'Por favor, preencha todos os campos.');
-      return;
-    }
-
-    const matchedExample = examples.find(example => example.username === username && example.password === password);
-    if (matchedExample) {
-      navigation.navigate('AnalyticsScreen');
-    } else {
-      Alert.alert('Erro de Login', 'Nome de usuário/email ou senha incorretos.');
-    }
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        navigation.navigate('AnalyticsScreen');
+      })
+      .catch((error) => {
+        Alert.alert('Erro de Login', error.message);
+      });
   };
 
   return (
@@ -39,11 +29,11 @@ const TelaLogin = ({ navigation }) => {
           <Text style={styles.title}>Login</Text>
           <TextInput
             style={styles.input}
-            placeholder="Nome de Usuário ou E-mail"
+            placeholder="E-mail"
             keyboardType="email-address"
             autoCapitalize="none"
-            value={username}
-            onChangeText={setUsername}
+            value={email}
+            onChangeText={setEmail}
           />
           <TextInput
             style={styles.input}

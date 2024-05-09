@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@react-native-picker/picker": "^2.7.5"
+    "@react-native-picker/picker": "^2.7.5",
+    "firebase": "^10.11.1"
   }
 }
