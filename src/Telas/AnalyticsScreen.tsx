@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Picker } from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 import Cabecalho from '../Componets/Cabecalho';
 
@@ -9,18 +9,6 @@ const AnalyticsScreen = ({ navigation }) => {
   const [genero, setGenero] = useState('');
   const [faixaEtaria, setFaixaEtaria] = useState('');
   const [escolaridade, setEscolaridade] = useState('');
-
-  const handleGeneroChange = (value) => {
-    setGenero(value);
-  };
-
-  const handleFaixaEtariaChange = (value) => {
-    setFaixaEtaria(value);
-  };
-
-  const handleEscolaridadeChange = (value) => {
-    setEscolaridade(value);
-  };
 
   return (
     <View style={styles.container}>
@@ -40,33 +28,39 @@ const AnalyticsScreen = ({ navigation }) => {
         </View>
         <View style={styles.filtersContainer}>
           <Text style={styles.filterTitle}>Gênero:</Text>
-          <Picker
-            selectedValue={genero}
-            onValueChange={handleGeneroChange}
-            style={styles.picker}
-          >
-            {/* Picker items */}
-          </Picker>
+          <RNPickerSelect
+            onValueChange={(value) => setGenero(value)}
+            items={[
+              { label: 'Masculino', value: 'masculino' },
+              { label: 'Feminino', value: 'feminino' },
+            ]}
+            style={pickerSelectStyles}
+            value={genero}
+          />
         </View>
         <View style={styles.filtersContainer}>
           <Text style={styles.filterTitle}>Faixa Etária:</Text>
-          <Picker
-            selectedValue={faixaEtaria}
-            onValueChange={handleFaixaEtariaChange}
-            style={styles.picker}
-          >
-            {/* Picker items */}
-          </Picker>
+          <RNPickerSelect
+            onValueChange={(value) => setFaixaEtaria(value)}
+            items={[
+              { label: '18-24', value: '18-24' },
+              { label: '25-34', value: '25-34' },
+            ]}
+            style={pickerSelectStyles}
+            value={faixaEtaria}
+          />
         </View>
         <View style={styles.filtersContainer}>
           <Text style={styles.filterTitle}>Escolaridade:</Text>
-          <Picker
-            selectedValue={escolaridade}
-            onValueChange={handleEscolaridadeChange}
-            style={styles.picker}
-          >
-            {/* Picker items */}
-          </Picker>
+          <RNPickerSelect
+            onValueChange={(value) => setEscolaridade(value)}
+            items={[
+              { label: 'Ensino Médio', value: 'ensino_medio' },
+              { label: 'Graduação', value: 'graduacao' },
+            ]}
+            style={pickerSelectStyles}
+            value={escolaridade}
+          />
         </View>
       </View>
       
@@ -85,6 +79,20 @@ const AnalyticsScreen = ({ navigation }) => {
     </View>
   );
 };
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: '#333',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 30,
+    paddingHorizontal: 12,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -137,16 +145,6 @@ const styles = StyleSheet.create({
   filterTitle: {
     marginRight: 10,
     color: '#333',
-  },
-  picker: {
-    flex: 1,
-    color: '#333',
-    backgroundColor: '#f2f2f2',
-    borderRadius: 30,
-    paddingHorizontal: 12,
-    marginHorizontal: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
   },
   bottomContainer: {
     flexDirection: 'row',
