@@ -8,6 +8,7 @@ import TelaInicial from './src/Telas/TelaInicial';
 import TelaLogin from './src/Telas/TelaLogin';
 import AnalyticsScreen from "./src/Telas/AnalyticsScreen";
 import HomeScreen from './src/Telas/HomeScreen';
+import ComplaintsScreen from "./src/Telas/ComplaintsScreen";
 
 
 const Stack = createStackNavigator();
@@ -36,7 +37,13 @@ const App = () => {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
+          <Stack.Screen
+          name="ComplaintsScreen" 
+          component={ComplaintsScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 }
