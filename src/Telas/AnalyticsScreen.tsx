@@ -12,7 +12,7 @@ const AnalyticsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Cabecalho imagemSource={require('../../assets/ProspAI_sprint.png')} userName="Usuário" />
+      <Cabecalho imagemSource={require('../../assets/ProspAI_sprint.png')} userName=" " />
       
       {/* Search Area */}
       <View style={styles.searchContainer}>
@@ -73,13 +73,13 @@ const AnalyticsScreen = ({ navigation }) => {
       
       {/* Bottom Icons */}
       <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Analytics')}>
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('AnalyticsScree')}>
           <Ionicons name="search-outline" size={32} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('HomesCreen  ')}>
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('HomeScreen')}>
           <Ionicons name="home" size={32} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Complaints')}>
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('ComplaintsScreen')}>
           <Ionicons name="newspaper-outline" size={32} color="#fff" />
         </TouchableOpacity>
       </View>

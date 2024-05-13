@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import TelaInicial from './src/Telas/TelaInicial';
 import TelaLogin from './src/Telas/TelaLogin';
 import AnalyticsScreen from "./src/Telas/AnalyticsScreen";
+import HomeScreen from './src/Telas/HomeScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -27,6 +29,11 @@ const App = () => {
         <Stack.Screen
           name="AnalyticsScreen" 
           component={AnalyticsScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HomeScreen" 
+          component={HomeScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
