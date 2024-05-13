@@ -45,6 +45,10 @@ const AnalyticsScreen = ({ navigation }) => {
             items={[
               { label: '18-24', value: '18-24' },
               { label: '25-34', value: '25-34' },
+              { label: '35-44', value: '35-44' },
+              { label: '45-54', value: '45-54' },
+              { label: '55-64', value: '55-64' },
+              { label: '65+', value: '65+' },
             ]}
             style={pickerSelectStyles}
             value={faixaEtaria}
@@ -57,6 +61,9 @@ const AnalyticsScreen = ({ navigation }) => {
             items={[
               { label: 'Ensino Médio', value: 'ensino_medio' },
               { label: 'Graduação', value: 'graduacao' },
+              { label: 'Pós-graduação', value: 'pos_graduacao' },
+              { label: 'Mestrado', value: 'mestrado' },
+              { label: 'Doutorado', value: 'doutorado' },
             ]}
             style={pickerSelectStyles}
             value={escolaridade}
@@ -67,13 +74,13 @@ const AnalyticsScreen = ({ navigation }) => {
       {/* Bottom Icons */}
       <View style={styles.bottomContainer}>
         <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Analytics')}>
-          <Ionicons name="analytics" size={32} color="#fff" />
+          <Ionicons name="search-outline" size={32} color="#fff" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Home')}>
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('HomesCreen  ')}>
           <Ionicons name="home" size={32} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Complaints')}>
-          <Ionicons name="alert-circle" size={32} color="#fff" />
+          <Ionicons name="newspaper-outline" size={32} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -99,7 +106,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: 50,
-    backgroundColor: '#f8f8f8', // Fundo mais claro
+    backgroundColor: '#696969', // Fundo mais claro
   },
   searchContainer: {
     backgroundColor: '#fff',
@@ -135,12 +142,12 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 15,
   },
   filtersContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 25,
   },
   filterTitle: {
     marginRight: 10,
@@ -156,7 +163,7 @@ const styles = StyleSheet.create({
   iconButton: {
     backgroundColor: '#333',
     borderRadius: 50,
-    padding: 15,
+    padding: 12,
   },
 });
 
