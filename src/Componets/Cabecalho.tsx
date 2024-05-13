@@ -1,27 +1,36 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';// futura implementaçao de um icone de log out
+
+// importações omitidas para brevidade
 
 interface CabecalhoProps {
-  titulo: string;
   imagemSource: any;
+  userName?: string;
 }
 
-const Cabecalho: React.FC<CabecalhoProps> = ({ titulo, imagemSource }) => {
+const Cabecalho: React.FC<CabecalhoProps> = ({ imagemSource, userName }) => {
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/ProspAI_sprint.png')} style={styles.imagem} />
-      <Text style={styles.texto}>{titulo}</Text>
+      <Image source={imagemSource} style={styles.imagem} />
+      {userName && <Text style={[styles.texto, styles.userName]}>{userName}</Text>}
     </View>
   );
 };
+
+// estilos omitidos para brevidade
+
+
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end', // Alinha os itens à direita
     backgroundColor: '#333',
-    padding: 15,
-    width: '100%', // Para ocupar toda a largura da tela
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    width: '100%',
   },
   imagem: {
     width: 30,
@@ -31,6 +40,9 @@ const styles = StyleSheet.create({
   texto: {
     color: 'white',
     fontSize: 20,
+  },
+  userName: {
+    marginLeft: 'auto', // Alinha o texto à direita
   },
 });
 

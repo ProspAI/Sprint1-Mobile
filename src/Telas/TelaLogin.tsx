@@ -1,13 +1,9 @@
-// Importações necessárias do React e React Native
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ImageBackground, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-// Importações do Firebase
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-// Configurações do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyB0la3qv8kRJbLLHHX9DGQdP4OZFgOvfsM",
   authDomain: "prospai.firebaseapp.com",
@@ -16,20 +12,21 @@ const firebaseConfig = {
   messagingSenderId: "977803603549",
   appId: "1:977803603549:web:f130a074db71aef83d27b4",
   measurementId: "G-L7JTV3SQSM"
-};
-
+}; // Configurações do Firebase
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 
 const TelaLogin = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState('');
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        navigation.navigate('AnalyticsScreen');
+      .then((userCredential) => {
+        const user = userCredential.user;
+        setUserName(user.displayName);
+        navigation.navigate('AnalyticsScreen', { userName }); // Passando o nome para a próxima tela
       })
       .catch((error) => {
         Alert.alert('Erro de Login', error.message);
@@ -59,6 +56,12 @@ const TelaLogin = ({ navigation }) => {
             secureTextEntry
             value={password}
             onChangeText={setPassword}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Nome"
+            value={userName}
+            onChangeText={setUserName}
           />
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Entrar</Text>
