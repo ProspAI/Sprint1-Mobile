@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ImageBackground, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB0la3qv8kRJbLLHHX9DGQdP4OZFgOvfsM",
@@ -13,6 +13,7 @@ const firebaseConfig = {
   appId: "1:977803603549:web:f130a074db71aef83d27b4",
   measurementId: "G-L7JTV3SQSM"
 }; // Configurações do Firebase
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -30,6 +31,20 @@ const TelaLogin = ({ navigation }) => {
       })
       .catch((error) => {
         Alert.alert('Erro de Login', error.message);
+      });
+  };
+
+  const handleForgotPassword = () => {
+    if (!email) {
+      Alert.alert('Erro', 'Por favor, insira seu email para redefinir a senha.');
+      return;
+    }
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert('Sucesso', 'Um email de redefinição de senha foi enviado.');
+      })
+      .catch((error) => {
+        Alert.alert('Erro', error.message);
       });
   };
 
@@ -65,6 +80,9 @@ const TelaLogin = ({ navigation }) => {
           />
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Entrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleForgotPassword}>
+            <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -129,6 +147,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  forgotPasswordText: {
+    marginTop: 10,
+    color: '#007bff',
+    textDecorationLine: 'underline',
   },
 });
 
