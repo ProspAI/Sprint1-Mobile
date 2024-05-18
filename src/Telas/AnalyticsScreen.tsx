@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import RNPickerSelect from 'react-native-picker-select';
-
+import { getAuth, signOut } from "firebase/auth";
 import Cabecalho from '../Componets/Cabecalho';
 
 const AnalyticsScreen = ({ navigation }) => {
@@ -10,15 +10,24 @@ const AnalyticsScreen = ({ navigation }) => {
   const [faixaEtaria, setFaixaEtaria] = useState('');
   const [escolaridade, setEscolaridade] = useState('');
 
+  const handleLogout = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        navigation.navigate('TelaLogin'); // Redirecionando para a tela de login
+      })
+      .catch((error) => {
+        Alert.alert('Erro ao sair', error.message);
+      });
+  };
+
   return (
     <View style={styles.container}>
-      <Cabecalho imagemSource={require('../../assets/ProspAI_sprint.png')} userName=" " />
-      
-      {/* Search Area */}
+      <Cabecalho imagemSource={require('../../assets/ProspAI_sprint.png')} title="Análises" onLogout={handleLogout} />
       <View style={styles.searchContainer}>
         <Text style={styles.searchTitle}>Pesquisar</Text>
         <View style={styles.searchInputContainer}>
-          <Ionicons name="search" size={24} color="#333" style={styles.searchIcon} />
+          <Ionicons name="search" size={24} color="#007bff" style={styles.searchIcon} />
           <TextInput
             placeholder="Digite sua pesquisa"
             placeholderTextColor="#666"
@@ -70,17 +79,18 @@ const AnalyticsScreen = ({ navigation }) => {
           />
         </View>
       </View>
-      
-      {/* Bottom Icons */}
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('AnalyticsScree')}>
-          <Ionicons name="search-outline" size={32} color="#fff" />
+      <View style={styles.bottomBar}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('AnalyticsScreen')}>
+          <Ionicons name="search-outline" size={28} color="#fff" />
+          <Text style={styles.navText}>Análises</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('HomeScreen')}>
-          <Ionicons name="home" size={32} color="#fff" />
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home-outline" size={28} color="#fff" />
+          <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('ComplaintsScreen')}>
-          <Ionicons name="newspaper-outline" size={32} color="#fff" />
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ComplaintsScreen')}>
+          <Ionicons name="newspaper-outline" size={28} color="#fff" />
+          <Text style={styles.navText}>Reclamações</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -106,15 +116,38 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     paddingTop: 50,
-    backgroundColor: '#696969', // Fundo mais claro
+    backgroundColor: '#f0f0f0',
   },
   searchContainer: {
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 20,
-    width: '80%',
+    width: '90%',
     marginBottom: 20,
-    shadowColor: '#333',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  searchTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#007bff',
+    textAlign: 'center',
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e6e6e6',
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -123,47 +156,42 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  searchTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-  },
-  searchInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#f2f2f2',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    marginBottom: 20,
-  },
   searchIcon: {
     marginRight: 10,
   },
   searchInput: {
     flex: 1,
-    fontSize: 15,
+    fontSize: 16,
+    color: '#333',
   },
   filtersContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 25,
+    marginBottom: 15,
   },
   filterTitle: {
+    fontSize: 16,
+    color: '#007bff',
     marginRight: 10,
-    color: '#333',
   },
-  bottomContainer: {
+  bottomBar: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#007bff',
     width: '100%',
+    paddingVertical: 10,
     position: 'absolute',
-    bottom: 20,
+    bottom: 0,
   },
-  iconButton: {
-    backgroundColor: '#333',
-    borderRadius: 50,
-    padding: 12,
+  navButton: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  navText: {
+    color: '#fff',
+    fontSize: 12,
+    marginTop: 4,
   },
 });
 

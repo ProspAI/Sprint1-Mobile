@@ -12,7 +12,8 @@ const firebaseConfig = {
   messagingSenderId: "977803603549",
   appId: "1:977803603549:web:f130a074db71aef83d27b4",
   measurementId: "G-L7JTV3SQSM"
-}; // Configurações do Firebase
+};
+
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -25,9 +26,7 @@ const TelaLogin = ({ navigation }) => {
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
-        setUserName(user.displayName);
-        navigation.navigate('AnalyticsScreen', { userName }); // Passando o nome para a próxima tela
+        navigation.navigate('HomeScreen', { userName }); // Passando o nome para a próxima tela
       })
       .catch((error) => {
         Alert.alert('Erro de Login', error.message);
@@ -90,7 +89,6 @@ const TelaLogin = ({ navigation }) => {
   );
 };
 
-// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
