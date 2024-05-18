@@ -25,6 +25,8 @@ const TelaLogin = ({ navigation }) => {
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        navigation.navigate('HomeScreen', { userName }); // Passando o nome para a próxima tela
+
         const user = userCredential.user;
         setUserName(user.displayName);
         navigation.navigate('AnalyticsScreen', { userName }); // Passando o nome para a próxima tela
@@ -90,12 +92,12 @@ const TelaLogin = ({ navigation }) => {
   );
 };
 
-// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
   },
   backButton: {
     position: 'absolute',
@@ -105,10 +107,15 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     alignItems: 'center',
-    width: '80%',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    width: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
     padding: 20,
     borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
   },
   backgroundImage: {
     flex: 1,
@@ -123,7 +130,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: '#2c3e50',
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     width: '100%',
@@ -133,11 +142,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingLeft: 10,
     marginBottom: 15,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
   },
   loginButton: {
     backgroundColor: '#007bff',
-    padding: 15,
+    paddingVertical: 15,
     borderRadius: 5,
     width: '100%',
     alignItems: 'center',
