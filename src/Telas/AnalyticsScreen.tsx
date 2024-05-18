@@ -1,175 +1,198 @@
-  import React, { useState } from 'react';
-  import { StyleSheet, Text, View, ImageBackground, TouchableOpacity, TextInput } from 'react-native';
-  import { Ionicons } from '@expo/vector-icons';
-  import { Picker } from '@react-native-picker/picker'; 
-  //caso o picker não baixar automaticamente usar o comando npm install @react-native-picker/picker
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import RNPickerSelect from 'react-native-picker-select';
+import { getAuth, signOut } from "firebase/auth";
+import Cabecalho from '../Componets/Cabecalho';
 
-  import Cabecalho from '../Componets/Cabecalho';
+const AnalyticsScreen = ({ navigation }) => {
+  const [genero, setGenero] = useState('');
+  const [faixaEtaria, setFaixaEtaria] = useState('');
+  const [escolaridade, setEscolaridade] = useState('');
 
-  const AnalyticsScree = ({ navigation }) => {
-    const [genero, setGenero] = useState('');
-    const [faixaEtaria, setFaixaEtaria] = useState('');
-    const [escolaridade, setEscolaridade] = useState('');
-
-    const handleGeneroChange = (value) => {
-      setGenero(value);
-    };
-
-    const handleFaixaEtariaChange = (value) => {
-      setFaixaEtaria(value);
-    };
-
-    const handleEscolaridadeChange = (value) => {
-      setEscolaridade(value);
-    };
-
-    return (
-      <ImageBackground source={require('../../assets/background_sprint.jpg')} style={styles.backgroundImage} blurRadius={5}>
-        <View style={styles.container}>
-        <Cabecalho titulo="  " imagemSource={require('../../assets/ProspAI_sprint.png')} />
-          {/* Search Area */}
-          <View style={styles.searchContainer}>
-            <Text style={styles.searchTitle}>Pesquisar</Text>
-            <View style={styles.searchInputContainer}>
-              <Ionicons name="search" size={24} color="gray" style={styles.searchIcon} />
-              <TextInput
-                placeholder="Digite sua pesquisa"
-                placeholderTextColor="gray"
-                style={styles.searchInput}
-                onChangeText={(text) => console.log(text)}
-              />
-            </View>
-            <View style={styles.filtersContainer}>
-              <Text style={styles.filterTitle}>Gênero:</Text>
-              <Picker
-                selectedValue={genero}
-                onValueChange={handleGeneroChange}
-                style={styles.picker}
-              >
-                <Picker.Item label="Selecione" value="" />
-                <Picker.Item label="Masculino" value="masculino" />
-                <Picker.Item label="Feminino" value="feminino" />
-                <Picker.Item label="Outro" value="outro" />
-              </Picker>
-            </View>
-            <View style={styles.filtersContainer}>
-              <Text style={styles.filterTitle}>Faixa Etária:</Text>
-              <Picker
-                selectedValue={faixaEtaria}
-                onValueChange={handleFaixaEtariaChange}
-                style={styles.picker}
-              >
-                <Picker.Item label="Selecione" value="" />
-                <Picker.Item label="0-17" value="0-17" />
-                <Picker.Item label="18-30" value="18-30" />
-                <Picker.Item label="31-50" value="31-50" />
-                <Picker.Item label="51+" value="51+" />
-              </Picker>
-            </View>
-            <View style={styles.filtersContainer}>
-              <Text style={styles.filterTitle}>Escolaridade:</Text>
-              <Picker
-                selectedValue={escolaridade}
-                onValueChange={handleEscolaridadeChange}
-                style={styles.picker}
-              >
-                <Picker.Item label="Selecione" value="" />
-                <Picker.Item label="Fundamental" value="fundamental" />
-                <Picker.Item label="Médio" value="medio" />
-                <Picker.Item label="Superior" value="superior" />
-                <Picker.Item label="Pós-graduação" value="pos-graduacao" />
-              </Picker>
-            </View>
-          </View>
-          
-          {/* Bottom Icons */}
-          <View style={styles.bottomContainer}>
-            <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Analytics')}>
-              <Ionicons name="analytics" size={24} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Home')}>
-              <Ionicons name="home" size={24} color="white" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('Complaints')}>
-              <Ionicons name="alert-circle" size={24} color="white" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ImageBackground>
-    );
+  const handleLogout = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        navigation.navigate('TelaLogin'); // Redirecionando para a tela de login
+      })
+      .catch((error) => {
+        Alert.alert('Erro ao sair', error.message);
+      });
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      paddingTop: 50,
-    },
-    backgroundImage: {
-      flex: 1,
-      resizeMode: 'cover',
-      justifyContent: 'center',
-    },
-    searchContainer: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      borderRadius: 10,
-      padding: 20,
-      width: '80%',
-      marginBottom: 20,
-    },
-    searchTitle: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-      color: 'white',
-    },
-    searchInputContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: 'rgba(255, 255, 255, 0.7)',
-      borderRadius: 10,
-      paddingHorizontal: 10,
-      marginBottom: 20,
-    },
-    searchIcon: {
-      marginRight: 10,
-    },
-    searchInput: {
-      flex: 1,
-      fontSize: 16,
-    },
-    filtersContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 10,
-    },
-    filterTitle: {
-      marginRight: 10,
-      color: 'white',
-    },
-    picker: {
-      flex: 1,
-      color: 'white',
-      backgroundColor: '#333', // Cor de fundo mais escura
-      borderRadius: 30, // Bordas mais arredondadas
-      paddingHorizontal: 12, // Mais espaçamento interno
-      marginHorizontal: 10, // Margem horizontal
-      borderWidth: 1, // Adiciona uma borda
-      borderColor: '#555', // Cor da borda
-    },
-    bottomContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      width: '100%',
-      position: 'absolute',
-      bottom: 20,
-    },
-    iconButton: {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      borderRadius: 50,
-      padding: 10,
-    },
-  });
-  
+  return (
+    <View style={styles.container}>
+      <Cabecalho imagemSource={require('../../assets/ProspAI_sprint.png')} title="Análises" onLogout={handleLogout} />
+      <View style={styles.searchContainer}>
+        <Text style={styles.searchTitle}>Pesquisar</Text>
+        <View style={styles.searchInputContainer}>
+          <Ionicons name="search" size={24} color="#007bff" style={styles.searchIcon} />
+          <TextInput
+            placeholder="Digite sua pesquisa"
+            placeholderTextColor="#666"
+            style={styles.searchInput}
+            onChangeText={(text) => console.log(text)}
+          />
+        </View>
+        <View style={styles.filtersContainer}>
+          <Text style={styles.filterTitle}>Gênero:</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setGenero(value)}
+            items={[
+              { label: 'Masculino', value: 'masculino' },
+              { label: 'Feminino', value: 'feminino' },
+            ]}
+            style={pickerSelectStyles}
+            value={genero}
+          />
+        </View>
+        <View style={styles.filtersContainer}>
+          <Text style={styles.filterTitle}>Faixa Etária:</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setFaixaEtaria(value)}
+            items={[
+              { label: '18-24', value: '18-24' },
+              { label: '25-34', value: '25-34' },
+              { label: '35-44', value: '35-44' },
+              { label: '45-54', value: '45-54' },
+              { label: '55-64', value: '55-64' },
+              { label: '65+', value: '65+' },
+            ]}
+            style={pickerSelectStyles}
+            value={faixaEtaria}
+          />
+        </View>
+        <View style={styles.filtersContainer}>
+          <Text style={styles.filterTitle}>Escolaridade:</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setEscolaridade(value)}
+            items={[
+              { label: 'Ensino Médio', value: 'ensino_medio' },
+              { label: 'Graduação', value: 'graduacao' },
+              { label: 'Pós-graduação', value: 'pos_graduacao' },
+              { label: 'Mestrado', value: 'mestrado' },
+              { label: 'Doutorado', value: 'doutorado' },
+            ]}
+            style={pickerSelectStyles}
+            value={escolaridade}
+          />
+        </View>
+      </View>
+      <View style={styles.bottomBar}>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('AnalyticsScreen')}>
+          <Ionicons name="search-outline" size={28} color="#fff" />
+          <Text style={styles.navText}>Análises</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home-outline" size={28} color="#fff" />
+          <Text style={styles.navText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ComplaintsScreen')}>
+          <Ionicons name="newspaper-outline" size={28} color="#fff" />
+          <Text style={styles.navText}>Reclamações</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
-  export default AnalyticsScree;
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: '#333',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 30,
+    paddingHorizontal: 12,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 50,
+    backgroundColor: '#f0f0f0',
+  },
+  searchContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 20,
+    width: '90%',
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 10,
+  },
+  searchTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#007bff',
+    textAlign: 'center',
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#e6e6e6',
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
+  },
+  filtersContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  filterTitle: {
+    fontSize: 16,
+    color: '#007bff',
+    marginRight: 10,
+  },
+  bottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#007bff',
+    width: '100%',
+    paddingVertical: 10,
+    position: 'absolute',
+    bottom: 0,
+  },
+  navButton: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  navText: {
+    color: '#fff',
+    fontSize: 12,
+    marginTop: 4,
+  },
+});
+
+export default AnalyticsScreen;

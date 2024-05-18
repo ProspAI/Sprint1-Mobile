@@ -1,11 +1,10 @@
-// Importações necessárias do React e React Native
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground, Image, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 // Importações do Firebase
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 // Configurações do Firebase
 const firebaseConfig = {
@@ -19,20 +18,34 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
 
 const TelaLogin = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState('');
 
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        navigation.navigate('AnalyticsScreen');
+      .then((userCredential) => {
+        navigation.navigate('HomeScreen', { userName }); // Passando o nome para a próxima tela
       })
       .catch((error) => {
         Alert.alert('Erro de Login', error.message);
+      });
+  };
+
+  const handleForgotPassword = () => {
+    if (!email) {
+      Alert.alert('Erro', 'Por favor, insira seu email para redefinir a senha.');
+      return;
+    }
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert('Sucesso', 'Um email de redefinição de senha foi enviado.');
+      })
+      .catch((error) => {
+        Alert.alert('Erro', error.message);
       });
   };
 
@@ -60,8 +73,17 @@ const TelaLogin = ({ navigation }) => {
             value={password}
             onChangeText={setPassword}
           />
+          <TextInput
+            style={styles.input}
+            placeholder="Nome"
+            value={userName}
+            onChangeText={setUserName}
+          />
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Entrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleForgotPassword}>
+            <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -69,12 +91,12 @@ const TelaLogin = ({ navigation }) => {
   );
 };
 
-// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
   },
   backButton: {
     position: 'absolute',
@@ -84,10 +106,15 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     alignItems: 'center',
-    width: '80%',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    width: '100%',
+    backgroundColor: 'rgba(255, 255, 255, 0.85)',
     padding: 20,
     borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
   },
   backgroundImage: {
     flex: 1,
@@ -102,7 +129,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
     fontWeight: 'bold',
+    color: '#2c3e50',
     marginBottom: 20,
+    textAlign: 'center',
   },
   input: {
     width: '100%',
@@ -112,11 +141,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingLeft: 10,
     marginBottom: 15,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
   },
   loginButton: {
     backgroundColor: '#007bff',
-    padding: 15,
+    paddingVertical: 15,
     borderRadius: 5,
     width: '100%',
     alignItems: 'center',
@@ -126,6 +155,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  forgotPasswordText: {
+    marginTop: 10,
+    color: '#007bff',
+    textDecorationLine: 'underline',
   },
 });
 
