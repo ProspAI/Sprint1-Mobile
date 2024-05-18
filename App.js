@@ -6,11 +6,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import TelaInicial from './src/Telas/TelaInicial';
 import TelaLogin from './src/Telas/TelaLogin';
+
 import HomeScreen from './src/Telas/HomeScreen';
 import AnalyticsScreen from './src/Telas/AnalyticsScreen';
 import ComplaintsScreen from './src/Telas/ComplaintsScreen';
 
 import { app, db, getFirestore, collection, addDoc, getDocs } from './src/services/firebaseConfig';
+
+import AnalyticsScreen from "./src/Telas/AnalyticsScreen";
+import HomeScreen from './src/Telas/HomeScreen';
+import ComplaintsScreen from "./src/Telas/ComplaintsScreen";
+
 
 const Stack = createStackNavigator();
 
@@ -29,21 +35,35 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+
           name="HomeScreen"
           component={HomeScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
           name="AnalyticsScreen"
+
+          name="AnalyticsScreen" 
+
           component={AnalyticsScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
+
           name="ComplaintsScreen"
+
+          name="HomeScreen" 
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name="ComplaintsScreen" 
+
           component={ComplaintsScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 };

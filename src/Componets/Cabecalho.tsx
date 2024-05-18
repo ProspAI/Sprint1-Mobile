@@ -2,6 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';// futura implementaçao de um icone de log out
+
+// importações omitidas para brevidade
+
 interface CabecalhoProps {
   imagemSource: any;
   userName?: string;
@@ -20,9 +25,21 @@ const Cabecalho: React.FC<CabecalhoProps> = ({ imagemSource, userName, title, on
           <Ionicons name="log-out-outline" size={24} color="white" style={styles.logoutIcon} />
         </TouchableOpacity>
       )}
+
+}
+
+const Cabecalho: React.FC<CabecalhoProps> = ({ imagemSource, userName }) => {
+  return (
+    <View style={styles.container}>
+      <Image source={imagemSource} style={styles.imagem} />
+      {userName && <Text style={[styles.texto, styles.userName]}>{userName}</Text>
     </View>
   );
 };
+
+// estilos omitidos para brevidade
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +47,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#007bff',
+    justifyContent: 'flex-end', // Alinha os itens à direita
+    backgroundColor: '#333',
     paddingVertical: 15,
     paddingHorizontal: 20,
     width: '100%',
@@ -54,6 +73,9 @@ const styles = StyleSheet.create({
   },
   logoutIcon: {
     marginLeft: 10,
+  },
+  userName: {
+    marginLeft: 'auto', // Alinha o texto à direita
   },
 });
 

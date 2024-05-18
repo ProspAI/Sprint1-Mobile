@@ -28,12 +28,63 @@ const AnalyticsScreen = ({ navigation }) => {
         <Text style={styles.searchTitle}>Pesquisar</Text>
         <View style={styles.searchInputContainer}>
           <Ionicons name="search" size={24} color="#007bff" style={styles.searchIcon} />
+
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import RNPickerSelect from 'react-native-picker-select';
+
+import Cabecalho from '../Componets/Cabecalho';
+
+const AnalyticsScreen = ({ navigation }) => {
+  const [genero, setGenero] = useState('');
+  const [faixaEtaria, setFaixaEtaria] = useState('');
+  const [escolaridade, setEscolaridade] = useState('');
+
+  return (
+    <View style={styles.container}>
+      <Cabecalho imagemSource={require('../../assets/ProspAI_sprint.png')} userName=" " />
+      
+      {/* Search Area */}
+      <View style={styles.searchContainer}>
+        <Text style={styles.searchTitle}>Pesquisar</Text>
+        <View style={styles.searchInputContainer}>
+          <Ionicons name="search" size={24} color="#333" style={styles.searchIcon} />
           <TextInput
             placeholder="Digite sua pesquisa"
             placeholderTextColor="#666"
             style={styles.searchInput}
             onChangeText={(text) => console.log(text)}
           />
+        </View>
+        <View style={styles.filtersContainer}>
+          <Text style={styles.filterTitle}>Gênero:</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setGenero(value)}
+            items={[
+              { label: 'Masculino', value: 'masculino' },
+              { label: 'Feminino', value: 'feminino' },
+            ]}
+            style={pickerSelectStyles}
+            value={genero}
+          />
+        </View>
+        <View style={styles.filtersContainer}>
+          <Text style={styles.filterTitle}>Faixa Etária:</Text>
+          <RNPickerSelect
+            onValueChange={(value) => setFaixaEtaria(value)}
+            items={[
+              { label: '18-24', value: '18-24' },
+              { label: '25-34', value: '25-34' },
+              { label: '35-44', value: '35-44' },
+              { label: '45-54', value: '45-54' },
+              { label: '55-64', value: '55-64' },
+              { label: '65+', value: '65+' },
+            ]}
+            style={pickerSelectStyles}
+            value={faixaEtaria}
+          />
+        </View>
+        <View style={styles.filtersContainer}>
         </View>
         <View style={styles.filtersContainer}>
           <Text style={styles.filterTitle}>Gênero:</Text>
@@ -91,6 +142,18 @@ const AnalyticsScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.navButton} onPress={() => navigation.navigate('ComplaintsScreen')}>
           <Ionicons name="newspaper-outline" size={28} color="#fff" />
           <Text style={styles.navText}>Reclamações</Text>
+
+      
+      {/* Bottom Icons */}
+      <View style={styles.bottomContainer}>
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('AnalyticsScree')}>
+          <Ionicons name="search-outline" size={32} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('HomeScreen')}>
+          <Ionicons name="home" size={32} color="#fff" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconButton} onPress={() => navigation.navigate('ComplaintsScreen')}>
+          <Ionicons name="newspaper-outline" size={32} color="#fff" />
         </TouchableOpacity>
       </View>
     </View>
@@ -117,6 +180,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 50,
     backgroundColor: '#f0f0f0',
+
+    backgroundColor: '#696969', // Fundo mais claro
   },
   searchContainer: {
     backgroundColor: '#fff',
@@ -148,6 +213,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 20,
     shadowColor: '#000',
+
+    width: '80%',
+    marginBottom: 20,
+    shadowColor: '#333',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -156,6 +225,20 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  searchTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
+  },
+  searchInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f2f2f2',
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
   searchIcon: {
     marginRight: 10,
   },
@@ -163,6 +246,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     color: '#333',
+    fontSize: 15,
   },
   filtersContainer: {
     flexDirection: 'row',
@@ -192,6 +276,24 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     marginTop: 4,
+
+    marginBottom: 25,
+  },
+  filterTitle: {
+    marginRight: 10,
+    color: '#333',
+  },
+  bottomContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    position: 'absolute',
+    bottom: 20,
+  },
+  iconButton: {
+    backgroundColor: '#333',
+    borderRadius: 50,
+    padding: 12,
   },
 });
 
